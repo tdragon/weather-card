@@ -206,7 +206,7 @@ class WeatherCard extends LitElement {
           <ha-icon icon="mdi:weather-windy"></ha-icon> ${windDirections[
             parseInt((stateObj.attributes.wind_bearing + 11.25) / 22.5)
           ]}
-          ${this.convertWindSpeed(stateObj.attributes.wind_speed, this.getUnit("windspeed"))}<span class="unit">
+          ${this.convertWindSpeed(stateObj.attributes.wind_speed)}<span class="unit">
             ${this.getUnit("windspeed")}
           </span>
         </li>
@@ -326,9 +326,9 @@ class WeatherCard extends LitElement {
     }.svg`;
   }
 
-  convertWindSpeed(value, unit) {
-    if(unit === "m/s") {
-      return value * 5 / 18;
+  convertWindSpeed(value) {
+    if(this.getUnit("windspeed") === "m/s") {
+      return (parseFloat(value) / 3.6).toFixed(2);
     }
     return value;
   }
