@@ -185,6 +185,7 @@ class WeatherCard extends LitElement {
 
   renderDetails(stateObj) {
     const sun = this.hass.states["sun.sun"];
+    const lang = this.hass.selectedLanguage || this.hass.language;
     let next_rising;
     let next_setting;
 
@@ -226,7 +227,7 @@ class WeatherCard extends LitElement {
           ? html`
               <li>
                 <ha-icon icon="mdi:weather-sunset-up"></ha-icon>
-                ${next_rising.toLocaleTimeString()}
+                ${next_rising.toLocaleTimeString(lang)}
               </li>
             `
           : ""}
@@ -234,7 +235,7 @@ class WeatherCard extends LitElement {
           ? html`
               <li>
                 <ha-icon icon="mdi:weather-sunset-down"></ha-icon>
-                ${next_setting.toLocaleTimeString()}
+                ${next_setting.toLocaleTimeString(lang)}
               </li>
             `
           : ""}
