@@ -206,8 +206,8 @@ class WeatherCard extends LitElement {
           <ha-icon icon="mdi:weather-windy"></ha-icon> ${windDirections[
             parseInt((stateObj.attributes.wind_bearing + 11.25) / 22.5)
           ]}
-          ${stateObj.attributes.wind_speed}<span class="unit">
-            ${this.getUnit("length")}/h
+          ${this.convertWindSpeed(stateObj.attributes.wind_speed, this.getUnit("windspeed"))}<span class="unit">
+            ${this.getUnit("windspeed")}
           </span>
         </li>
         <li>
@@ -326,6 +326,13 @@ class WeatherCard extends LitElement {
     }.svg`;
   }
 
+  convertWindSpeed(value, unit) {
+    if(unit === "m/s") {
+      return value * 5 / 18;
+    }
+    return value;
+  }
+
   getUnit(measure) {
     const lengthUnit = this.hass.config.unit_system.length;
     switch (measure) {
@@ -337,6 +344,8 @@ class WeatherCard extends LitElement {
         return lengthUnit === "km" ? "mm" : "in";
       case "precipitation_probability":
         return "%";
+      case "windspeed":
+        return lengthUnit === "km" ? "m/s" : lengthUnit +"/h";
       default:
         return this.hass.config.unit_system[measure] || "";
     }
